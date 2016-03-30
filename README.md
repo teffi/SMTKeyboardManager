@@ -5,6 +5,11 @@ SMTkeyboardManager handles automatic scrolling of textfields that hides beneath 
 ## Version
 1.0.0
 
+### Cocoapods - Podfile
+```
+pod 'SMTKeyboardManager'
+```
+
 ### Integration
 Set all texfields to a subclass of 
 ```objc
