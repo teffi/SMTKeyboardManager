@@ -13,7 +13,7 @@
 
 @interface SMTKeyboardManager : NSObject
 
-+(SMTKeyboardManager *)sharedManager;
++(nonnull SMTKeyboardManager *)sharedManager;
 /**
  *  Holds the controller that uses the SMTKeyboardManager
  */
@@ -33,7 +33,7 @@
  *  Set if you want to make custom actions on keyboardWillBeHidden or keyBoardWillShow apart
  *  from what SMTKeyboardManager is doing.
  */
-@property(weak,nonatomic)id<SMTKeyboardManagerDelegate> delegate;
+@property(weak,nonatomic,nullable)id<SMTKeyboardManagerDelegate> delegate;
 /**
  *  Create keyboard KVO observer
  *  Recommended to be called on AppDelegate
