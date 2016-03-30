@@ -1,0 +1,138 @@
+//
+//  SMTKeyboardManger.m
+//  SMTKeyboardManager
+//
+//  Created by Steffi Tan on 30/03/2016.
+//  Copyright © 2016 Steffi Tan. All rights reserved.
+//
+
+#import "SMTKeyboardManager.h"
+
+static CGFloat keyboardHeight;
+
+@interface SMTKeyboardManager()
+@property(strong,nonatomic,nonnull)id controller;
+@property(strong,nonatomic,nonnull)UIView * controllerView;
+
+@end
+
+@implementation SMTKeyboardManager
++(SMTKeyboardManager *)sharedManager{
+    
+    static SMTKeyboardManager * _sharedManager = nil;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        _sharedManager = [[self alloc]init];
+        
+    });
+    
+    return _sharedManager;
+}
+-(instancetype)init{
+    self = [super init];
+    
+    if(self){
+        
+    }
+    return self;
+}
+
+#pragma mark - Monitoring
+#pragma mark -
+
+-(void)startKeyboardMonitoring{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+}
+
+-(void)endKeyboardMonitoring{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
+}
+
+#pragma mark - Observer selectors
+#pragma mark -
+- (void)keyboardWillShow:(NSNotification *)notification {
+    if([self.delegate respondsToSelector:@selector(SMTKeyboardManagerKeyboardWillShow)]){
+        [self.delegate SMTKeyboardManagerKeyboardWillShow];
+    }
+    
+    //NSLog(@"current textfield %@",_currentTextField);
+    NSDictionary* info = [notification userInfo];
+    
+    keyboardHeight = CGRectGetHeight([[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
+    
+    CGPoint textFieldOrigin = _currentTextField.frame.origin;
+    textFieldOrigin.y = CGRectGetMinY(_currentTextField.frame) + CGRectGetMinY(_scrollView.frame);
+    
+    CGFloat textFieldHeight = CGRectGetHeight(_currentTextField.frame);
+    CGRect visibleRect = _controllerView.frame;
+    visibleRect.size.height -= keyboardHeight;
+    
+    //Automatic scroll when field is out of bounds the visible rect.
+    if (!CGRectContainsPoint(visibleRect, textFieldOrigin)){
+        CGPoint scrollPoint = CGPointMake(0.0, textFieldOrigin.y + textFieldHeight - visibleRect.size.height  + 10);
+        [_scrollView setContentOffset:scrollPoint animated:YES];
+    }
+    
+    //Support manual scrolling of scrollview.
+    [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height + keyboardHeight)];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    if([self.delegate respondsToSelector:@selector(SMTKeyboardManagerKeyboardWillHide)]){
+        [self.delegate SMTKeyboardManagerKeyboardWillHide];
+    }
+    
+    [_scrollView setContentOffset:CGPointZero animated:YES];
+    [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+    //NSLog(@"SMTKeyboardManager keyboard will hide");
+}
+
+#pragma mark - Properties
+#pragma mark -
+-(void)setCurrentController:(id)currentController{
+    _controller = (UIViewController *)currentController;
+    _controllerView = ((UIViewController *)currentController).view;
+    
+    [self createDismissTap];
+}
+
+-(id)currentController{
+    
+    return _controller;
+}
+
+#pragma mark - Tap to Dismiss Support
+#pragma mark -
+-(void)createDismissTap{
+    //NSLog(@"current controller view %@",_controllerView);
+    
+    if(_supportDismissTap){
+        UITapGestureRecognizer * dissmissTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didDismissTap)];
+        
+        [_controllerView addGestureRecognizer:dissmissTapGesture];
+    }
+}
+-(void)didDismissTap{
+    //NSLog(@"dismiss tap on keyboard manager");
+    [_controllerView endEditing:YES];
+    [self performSelector:@selector(keyboardWillBeHidden:) withObject:nil];
+}
+
+@end
+
