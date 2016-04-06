@@ -22,7 +22,7 @@
  *  Holds the current active textfield when the keyboard shows.
  *  Gets evaluated whether its colliding with the keyboard.
  */
-@property(strong,nonatomic,nonnull)UITextField * currentTextField;
+@property(strong,nonatomic,nonnull)UIView * activeView;
 /**
  *  Holds the scrollview where the currentTextField is placed.
  *  SMTKeyboardManager requires the textfield to be placed inside a scrollview.

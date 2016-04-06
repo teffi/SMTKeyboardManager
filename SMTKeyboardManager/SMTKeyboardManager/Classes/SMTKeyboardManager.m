@@ -50,6 +50,11 @@ static CGFloat keyboardHeight;
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    //Support of UITextView
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
     
 }
 
@@ -62,6 +67,9 @@ static CGFloat keyboardHeight;
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidShowNotification
+                                                  object:nil];
 }
 
 #pragma mark - Observer selectors
@@ -71,15 +79,15 @@ static CGFloat keyboardHeight;
         [self.delegate SMTKeyboardManagerKeyboardWillShow];
     }
     
-    //NSLog(@"current textfield %@",_currentTextField);
+    //NSLog(@"current textfield %@",activeView);
     NSDictionary* info = [notification userInfo];
     
     keyboardHeight = CGRectGetHeight([[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
     
-    CGPoint textFieldOrigin = _currentTextField.frame.origin;
-    textFieldOrigin.y = CGRectGetMinY(_currentTextField.frame) + CGRectGetMinY(_scrollView.frame);
+    CGPoint textFieldOrigin = _activeView.frame.origin;
+    textFieldOrigin.y = CGRectGetMinY(_activeView.frame) + CGRectGetMinY(_scrollView.frame);
     
-    CGFloat textFieldHeight = CGRectGetHeight(_currentTextField.frame);
+    CGFloat textFieldHeight = CGRectGetHeight(_activeView.frame);
     CGRect visibleRect = _controllerView.frame;
     visibleRect.size.height -= keyboardHeight;
     
@@ -101,6 +109,17 @@ static CGFloat keyboardHeight;
     [_scrollView setContentOffset:CGPointZero animated:YES];
     [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
     //NSLog(@"SMTKeyboardManager keyboard will hide");
+}
+
+//DidShow is ONLY for UITextView class.
+//TextView 'willShowKeyboard' observer is trigerred prior to beginEditing where the activeView is assigned
+//Therefore we need to catch the observer on DidShow instead of WillShow
+- (void)keyboardDidShow:(NSNotification *)notification {
+    
+    if ([_activeView superclass] == [UITextView class]) {
+        NSLog(@"ITS A TEXTVIEW!");
+        [self keyboardWillShow:notification];
+    }
 }
 
 #pragma mark - Properties
