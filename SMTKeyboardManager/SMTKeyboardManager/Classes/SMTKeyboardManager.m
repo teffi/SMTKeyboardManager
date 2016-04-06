@@ -78,28 +78,32 @@ static CGFloat keyboardHeight;
     if([self.delegate respondsToSelector:@selector(SMTKeyboardManagerKeyboardWillShow)]){
         [self.delegate SMTKeyboardManagerKeyboardWillShow];
     }
-    
-    //NSLog(@"current textfield %@",activeView);
+
     NSDictionary* info = [notification userInfo];
     
     keyboardHeight = CGRectGetHeight([[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue]);
     
-    CGPoint textFieldOrigin = _activeView.frame.origin;
-    textFieldOrigin.y = CGRectGetMinY(_activeView.frame) + CGRectGetMinY(_scrollView.frame);
-    
     CGFloat textFieldHeight = CGRectGetHeight(_activeView.frame);
+    
+    CGPoint textFieldOrigin = _activeView.frame.origin;
+    textFieldOrigin.y = CGRectGetMinY(_activeView.frame) + CGRectGetMinY(_scrollView.frame) + textFieldHeight;
     CGRect visibleRect = _controllerView.frame;
     visibleRect.size.height -= keyboardHeight;
     
     //Automatic scroll when field is out of bounds the visible rect.
     if (!CGRectContainsPoint(visibleRect, textFieldOrigin)){
-        CGPoint scrollPoint = CGPointMake(0.0, textFieldOrigin.y + textFieldHeight - visibleRect.size.height  + 10);
-        [_scrollView setContentOffset:scrollPoint animated:YES];
+        CGPoint scrollPoint = CGPointMake(0.0, textFieldOrigin.y - visibleRect.size.height  + 10);
+        //Don't proceed with offsetting when the calculated scrollpoint is out of bounds
+        if(scrollPoint.y <= CGRectGetMinY(_activeView.frame)){
+            [_scrollView setContentOffset:scrollPoint animated:YES];
+        }
     }
     
     //Support manual scrolling of scrollview.
     [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height + keyboardHeight)];
+    
 }
+
 
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
     if([self.delegate respondsToSelector:@selector(SMTKeyboardManagerKeyboardWillHide)]){
@@ -108,6 +112,11 @@ static CGFloat keyboardHeight;
     
     [_scrollView setContentOffset:CGPointZero animated:YES];
     [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+    
+    //Set activeview to nil to avoid conflict when the activeView becomes UITextView while willShow is
+    //still triggered while holding the previous activeView
+    _activeView = nil;
+    
     //NSLog(@"SMTKeyboardManager keyboard will hide");
 }
 
@@ -117,7 +126,8 @@ static CGFloat keyboardHeight;
 - (void)keyboardDidShow:(NSNotification *)notification {
     
     if ([_activeView superclass] == [UITextView class]) {
-        NSLog(@"ITS A TEXTVIEW!");
+        //NSLog(@"ITS A TEXTVIEW! notif %@",notification);
+        //NSLog(@"active view %@",_activeView);
         [self keyboardWillShow:notification];
     }
 }
