@@ -15,6 +15,7 @@
 		6B27E1B71CAB810700AC5DA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B27E1B51CAB810700AC5DA0 /* LaunchScreen.storyboard */; };
 		6B27E1C41CAB822400AC5DA0 /* SMTKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B27E1C31CAB822400AC5DA0 /* SMTKeyboardManager.m */; };
 		6B27E1C71CAB825B00AC5DA0 /* SMTTextFieldHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B27E1C61CAB825B00AC5DA0 /* SMTTextFieldHandler.m */; };
+		6B519A791CB4D994000B5835 /* SMTTextViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B519A781CB4D994000B5835 /* SMTTextViewHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		6B27E1C31CAB822400AC5DA0 /* SMTKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTKeyboardManager.m; sourceTree = "<group>"; };
 		6B27E1C51CAB825B00AC5DA0 /* SMTTextFieldHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTTextFieldHandler.h; sourceTree = "<group>"; };
 		6B27E1C61CAB825B00AC5DA0 /* SMTTextFieldHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTTextFieldHandler.m; sourceTree = "<group>"; };
+		6B519A771CB4D994000B5835 /* SMTTextViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTTextViewHandler.h; sourceTree = "<group>"; };
+		6B519A781CB4D994000B5835 /* SMTTextViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTTextViewHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				6B27E1C31CAB822400AC5DA0 /* SMTKeyboardManager.m */,
 				6B27E1C51CAB825B00AC5DA0 /* SMTTextFieldHandler.h */,
 				6B27E1C61CAB825B00AC5DA0 /* SMTTextFieldHandler.m */,
+				6B519A771CB4D994000B5835 /* SMTTextViewHandler.h */,
+				6B519A781CB4D994000B5835 /* SMTTextViewHandler.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 				6B27E1AF1CAB810700AC5DA0 /* ViewController.m in Sources */,
 				6B27E1AC1CAB810700AC5DA0 /* AppDelegate.m in Sources */,
 				6B27E1A91CAB810700AC5DA0 /* main.m in Sources */,
+				6B519A791CB4D994000B5835 /* SMTTextViewHandler.m in Sources */,
 				6B27E1C41CAB822400AC5DA0 /* SMTKeyboardManager.m in Sources */,
 				6B27E1C71CAB825B00AC5DA0 /* SMTTextFieldHandler.m in Sources */,
 			);
@@ -322,6 +328,7 @@
 				6B27E1BD1CAB810700AC5DA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
