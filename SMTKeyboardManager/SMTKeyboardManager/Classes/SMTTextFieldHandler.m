@@ -16,22 +16,6 @@
 
 @implementation SMTTextFieldHandler
 
-/*
-+(SMTTextFieldHandler *)sharedHandler{
-    
-    static SMTTextFieldHandler * _sharedHandler = nil;
-    static dispatch_once_t token;
-    dispatch_once(&token, ^{
-        
-        _sharedHandler = [[self alloc]init];
-        
-    });
-    
-    return _sharedHandler;
-}
-*/
-
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -53,7 +37,7 @@
     
     [keyboardManager setCurrentController:[textField.superview.superview nextResponder]];
     keyboardManager.delegate = (id)[textField.superview.superview nextResponder];
-    keyboardManager.currentTextField = textField;
+    keyboardManager.activeView = textField;
     keyboardManager.scrollView = (id)textField.superview;
 }
 
