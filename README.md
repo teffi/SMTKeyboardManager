@@ -3,7 +3,11 @@
 SMTkeyboardManager handles automatic scrolling of textfields that hides beneath the keyboard
 
 ## Version
-1.0.0
+1.1.0
+
+####Changelog v1.1.0
+* Added UITextView support.
+* Updated scrolling calculations that will work for both UITextField and UITextView
 
 ### Cocoapods - Podfile
 ```
@@ -14,6 +18,10 @@ pod 'SMTKeyboardManager'
 Set all texfields to a subclass of 
 ```objc
 SMTTextFieldHandler
+```
+Set all TextView to a subclass of 
+```objc
+SMTTextViewHandler
 ```
 
 ##### Keyboard Monitoring
@@ -47,8 +55,10 @@ BOOL supportDismissTap
 
 ### IMPORTANT
 Pre-requisite:
-* Textfields must be inside a scrollview.
+* Textfields/TextView must be inside a scrollview.
 * View hierarchy should be Controller View -> ScrollView -> TextField
+
+
 
 ### Lets build together!
 Fork, implement, pull request. 
