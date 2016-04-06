@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SMTKeyboardManager"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "SMTkeyboardManager handles automatic scrolling of textfields that hides beneath the keyboard."
 
  # s.description  = ""
@@ -70,7 +70,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/teffi/SMTKeyboardManager.git", :tag => "1.0.0" }
+  s.source       = { :git => "https://github.com/teffi/SMTKeyboardManager.git", :tag => "1.1.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
