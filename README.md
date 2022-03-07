@@ -64,6 +64,6 @@ Pre-requisite:
 Fork, implement, pull request. 
 
 ### Copyright
-Copyright (c) 2015 [Steffi Tan](http://iamsteffi.com)  
+Copyright (c) 2015 [Steffi](steffi.dev)  
 See MIT-LICENSE for further details.
 
